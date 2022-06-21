@@ -25,24 +25,24 @@
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="/">Accueil
+                            <a class="nav-link active" href="{{ path('home') }}">Accueil
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user">Utilisateurs</a>
+                            <a class="nav-link" href="{{ path('home') }}">Utilisateurs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/cat">Catégories</a>
+                            <a class="nav-link" href="{{ path('home') }}">Catégories</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="/produits">Produits</a>
+                            <a class="nav-link" href="{{ path('app_produits_index') }}">Produits</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/achat">Achats</a>
+                            <a class="nav-link" href="{{ path('home') }}">Achats</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/modif">Modifications</a>
+                            <a class="nav-link" href="{{ path('home') }}">Modifications</a>
                         </li>
                     </ul>
                     <form class="d-flex">
