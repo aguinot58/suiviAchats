@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Achats{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+        <h1 class="mt-5">Achats</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Date Achat <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Date Fin Garantie <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Prix Achat <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Photo Ticket Achat <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Lieu Achat <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for achat in achats %}
+                <tr>
+                    <td>{{ achat.idAchat }}</td>
+                    <td>{{ achat.dateAchat ? achat.dateAchat|date('Y-m-d') : '' }}</td>
+                    <td>{{ achat.dateGarAchat ? achat.dateGarAchat|date('Y-m-d') : '' }}</td>
+                    <td>{{ achat.prixAchat }}</td>
+                    <td>{{ achat.photoTicketAchat }}</td>
+                    <td>{{ achat.lieuAchat }}</td>
+                    <td>
+                        <a href="{{ path('app_achats_show', {'idAchat': achat.idAchat}) }}">Voir</a>
+                        <a href="{{ path('app_achats_edit', {'idAchat': achat.idAchat}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_achats_new') }}">Nouveau</a>
+    </div>
+{% endblock %}

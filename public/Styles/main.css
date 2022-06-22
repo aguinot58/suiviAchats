@@ -1,0 +1,11 @@
+.fleches{
+
+    width: 15px;
+
+}
+
+.fleches:hover, th:hover{
+
+    cursor: pointer;
+
+}

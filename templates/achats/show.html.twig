@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Achats{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="mt-5 mb-5">Achats</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id Achat</th>
+                    <td>{{ achat.idAchat }}</td>
+                </tr>
+                <tr>
+                    <th>Date Achat</th>
+                    <td>{{ achat.dateAchat ? achat.dateAchat|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Date fin garantie</th>
+                    <td>{{ achat.dateGarAchat ? achat.dateGarAchat|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Prix Achat</th>
+                    <td>{{ achat.prixAchat }}</td>
+                </tr>
+                <tr>
+                    <th>Photo Ticket Achat</th>
+                    <td>{{ achat.photoTicketAchat }}</td>
+                </tr>
+                <tr>
+                    <th>Lieu Achat</th>
+                    <td>{{ achat.lieuAchat }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_achats_index') }}">Retour</a>
+
+        <a href="{{ path('app_achats_edit', {'idAchat': achat.idAchat}) }}">Modifier</a>
+
+        {{ include('achats/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

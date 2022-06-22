@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Modification{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="mt-5 mb-5">Saisir une nouvelle modification :</h1>
+
+        {{ include('modifications/_form.html.twig') }}
+
+        <a href="{{ path('app_modifications_index') }}"><p class="mt-3">Retour</p></a>
+    </div>
+{% endblock %}

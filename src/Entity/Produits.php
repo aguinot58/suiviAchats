@@ -22,13 +22,6 @@ class Produits
     private $idProd;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_cat", type="integer", nullable=false)
-     */
-    private $idCat;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="manuel_prod", type="string", length=255, nullable=false)
@@ -49,21 +42,19 @@ class Produits
      */
     private $effaceProd;
 
+    /**
+     * @var \Categories
+     *
+     * @ORM\ManyToOne(targetEntity="Categories")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="id_cat", referencedColumnName="id_cat")
+     * })
+     */
+    private $idCat;
+
     public function getIdProd(): ?int
     {
         return $this->idProd;
-    }
-
-    public function getIdCat(): ?int
-    {
-        return $this->idCat;
-    }
-
-    public function setIdCat(int $idCat): self
-    {
-        $this->idCat = $idCat;
-
-        return $this;
     }
 
     public function getManuelProd(): ?string
@@ -98,6 +89,18 @@ class Produits
     public function setEffaceProd(bool $effaceProd): self
     {
         $this->effaceProd = $effaceProd;
+
+        return $this;
+    }
+
+    public function getIdCat(): ?Categories
+    {
+        return $this->idCat;
+    }
+
+    public function setIdCat(?Categories $idCat): self
+    {
+        $this->idCat = $idCat;
 
         return $this;
     }
