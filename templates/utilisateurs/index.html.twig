@@ -22,10 +22,10 @@
             {% for utilisateur in utilisateurs %}
                 <tr>
                     <td>{{ utilisateur.idUser }}</td>
-                    <td>{{ utilisateur.nomUser }}</td>
-                    <td>{{ utilisateur.prenomUser }}</td>
+                    <td>{{ utilisateur.surName }}</td>
+                    <td>{{ utilisateur.username }}</td>
                     <td>{{ utilisateur.mailUser }}</td>
-                    <td>{{ utilisateur.mdpUser }}</td>
+                    <td>{{ utilisateur.password }}</td>
                     <td>{{ utilisateur.idRole }}</td>
                     <td>
                         <a href="{{ path('app_utilisateurs_show', {'idUser': utilisateur.idUser}) }}">Voir</a>

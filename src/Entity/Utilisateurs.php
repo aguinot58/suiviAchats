@@ -5,12 +5,17 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Utilisateurs
  *
  * @ORM\Table(name="utilisateurs", uniqueConstraints={@ORM\UniqueConstraint(name="mail_user", columns={"mail_user"})}, indexes={@ORM\Index(name="id_role", columns={"id_role"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ * fields={"mailUser"},
+ * message= "L'email que vous avez indiquer est déjà utilisé"
+ * )
  */
 class Utilisateurs implements UserInterface
 {
@@ -27,6 +32,7 @@ class Utilisateurs implements UserInterface
      * @var string
      *
      * @ORM\Column(name="mail_user", type="string", length=255, nullable=false)
+     * @Assert\Email()
      */
     private $mailUser;
 
@@ -35,7 +41,7 @@ class Utilisateurs implements UserInterface
      *
      * @ORM\Column(name="prenom_user", type="string", length=50, nullable=false)
      */
-    private $Username;
+    private $username;
 
     /**
      * @var string
@@ -87,14 +93,14 @@ class Utilisateurs implements UserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
+    public function getusername(): ?string
     {
-        return $this->Username;
+        return $this->username;
     }
 
-    public function Username(string $Username): self
+    public function setusername(string $username): self
     {
-        $this->Username = $Username;
+        $this->username = $username;
 
         return $this;
     }
