@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Produits;
-use App\Form\ProduitsType;
+use App\Form\Produits1Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +35,7 @@ class ProduitsController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $produit = new Produits();
-        $form = $this->createForm(ProduitsType::class, $produit);
+        $form = $this->createForm(Produits1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +66,7 @@ class ProduitsController extends AbstractController
      */
     public function edit(Request $request, Produits $produit, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(ProduitsType::class, $produit);
+        $form = $this->createForm(Produits1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
