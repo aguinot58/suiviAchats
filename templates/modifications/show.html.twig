@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifications{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="mt-5 mb-5">Modifications</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id Modif.</th>
+                    <td>{{ modification.idModif }}</td>
+                </tr>
+                <tr>
+                    <th>Type Modif.</th>
+                    <td>{{ modification.typeModif }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ modification.descModif }}</td>
+                </tr>
+                <tr>
+                    <th>Date Modif.</th>
+                    <td>{{ modification.dateModif ? modification.dateModif|date('Y-m-d') : '' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_modifications_index') }}">Retour</a>
+
+        <a href="{{ path('app_modifications_edit', {'idModif': modification.idModif}) }}">Modifier</a>
+
+        {{ include('modifications/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

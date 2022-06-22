@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+        <h1 class="mt-5">Utilisateurs</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Nom <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Prénom <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>E-mail <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Password <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Id rôle <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for utilisateur in utilisateurs %}
+                <tr>
+                    <td>{{ utilisateur.idUser }}</td>
+                    <td>{{ utilisateur.nomUser }}</td>
+                    <td>{{ utilisateur.prenomUser }}</td>
+                    <td>{{ utilisateur.mailUser }}</td>
+                    <td>{{ utilisateur.mdpUser }}</td>
+                    <td>{{ utilisateur.idRole }}</td>
+                    <td>
+                        <a href="{{ path('app_utilisateurs_show', {'idUser': utilisateur.idUser}) }}">Voir</a>
+                        <a href="{{ path('app_utilisateurs_edit', {'idUser': utilisateur.idUser}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_utilisateurs_new') }}">Nouveau</a>
+    </div>
+{% endblock %}

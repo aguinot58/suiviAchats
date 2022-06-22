@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index type lieux{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+
+        <h1 class="mt-5">Types de Lieux</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id Type Lieu <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Nom Type Lieu <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for type_lieux in type_lieuxes %}
+                <tr>
+                    <td>{{ type_lieux.idTypeLieu }}</td>
+                    <td>{{ type_lieux.nomTypeLieu }}</td>
+                    <td>
+                        <a href="{{ path('app_type_lieux_show', {'idTypeLieu': type_lieux.idTypeLieu}) }}">Voir</a>
+                        <a href="{{ path('app_type_lieux_edit', {'idTypeLieu': type_lieux.idTypeLieu}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_type_lieux_new') }}">Nouveau</a>
+    </div>
+{% endblock %}

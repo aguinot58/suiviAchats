@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Categories{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+        <h1 class="mt-5">Categories</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Nom <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.idCat }}</td>
+                    <td>{{ category.nomCat }}</td>
+                    <td>
+                        <a href="{{ path('app_categories_show', {'idCat': category.idCat}) }}">Voir</a>
+                        <a href="{{ path('app_categories_edit', {'idCat': category.idCat}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_categories_new') }}">Nouvelle</a>
+    </div>
+{% endblock %}
