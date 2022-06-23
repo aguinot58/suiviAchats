@@ -50,5 +50,4 @@ class Roles
         return $this->nomRole;
     }
 
-
 }

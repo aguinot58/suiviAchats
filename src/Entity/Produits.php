@@ -24,6 +24,13 @@ class Produits
     /**
      * @var string
      *
+     * @ORM\Column(name="nom_prod", type="string", length=100, nullable=false)
+     */
+    private $nomProd;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="manuel_prod", type="string", length=255, nullable=false)
      */
     private $manuelProd;
@@ -55,6 +62,18 @@ class Produits
     public function getIdProd(): ?int
     {
         return $this->idProd;
+    }
+
+    public function getNomProd(): ?string
+    {
+        return $this->nomProd;
+    }
+
+    public function setNomProd(string $nomProd): self
+    {
+        $this->nomProd = $nomProd;
+
+        return $this;
     }
 
     public function getManuelProd(): ?string
