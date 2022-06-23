@@ -151,8 +151,6 @@ class Utilisateurs implements UserInterface
     public function getSalt()
     {
     }
-<<<<<<< HEAD
-=======
 
     public function getRoles(){
         return ['ROLE_USER'];
@@ -162,7 +160,6 @@ class Utilisateurs implements UserInterface
     {
         return $this->mailUser;
     }
->>>>>>> master
 
     public function getRoles(){
         return ['ROLE_USER'];
