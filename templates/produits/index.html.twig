@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Index Produits{% endblock %}
+{% block title %}Index produits{% endblock %}
 
 {% block body %}
     <div class="container table-responsive text-center">
+
         <h1 class="mt-5">Produits</h1>
 
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
-                    <th>Id Catégorie <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
-                    <th>Manuel d'utilisation<img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Nom <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Manuel d'utilisation <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
                     <th>Informations <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
-                    <th>Effacé ? <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Effacé? <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -21,7 +22,7 @@
             {% for produit in produits %}
                 <tr>
                     <td>{{ produit.idProd }}</td>
-                    <td>{{ produit.idCat }}</td>
+                    <td>{{ produit.nomProd }}</td>
                     <td>{{ produit.manuelProd }}</td>
                     <td>{{ produit.infosProd }}</td>
                     <td>{{ produit.effaceProd ? 'Yes' : 'No' }}</td>

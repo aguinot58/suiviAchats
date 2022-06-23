@@ -47,10 +47,11 @@ class ProduitsControllerTest extends WebTestCase
         self::assertResponseStatusCodeSame(200);
 
         $this->client->submitForm('Save', [
-            'produit[idCat]' => 'Testing',
+            'produit[nomProd]' => 'Testing',
             'produit[manuelProd]' => 'Testing',
             'produit[infosProd]' => 'Testing',
             'produit[effaceProd]' => 'Testing',
+            'produit[idCat]' => 'Testing',
         ]);
 
         self::assertResponseRedirects('/sweet/food/');
@@ -62,10 +63,11 @@ class ProduitsControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Produits();
-        $fixture->setIdCat('My Title');
+        $fixture->setNomProd('My Title');
         $fixture->setManuelProd('My Title');
         $fixture->setInfosProd('My Title');
         $fixture->setEffaceProd('My Title');
+        $fixture->setIdCat('My Title');
 
         $this->repository->add($fixture, true);
 
@@ -81,10 +83,11 @@ class ProduitsControllerTest extends WebTestCase
     {
         $this->markTestIncomplete();
         $fixture = new Produits();
-        $fixture->setIdCat('Value');
+        $fixture->setNomProd('Value');
         $fixture->setManuelProd('Value');
         $fixture->setInfosProd('Value');
         $fixture->setEffaceProd('Value');
+        $fixture->setIdCat('Value');
 
         $this->manager->persist($fixture);
         $this->manager->flush();
@@ -92,30 +95,33 @@ class ProduitsControllerTest extends WebTestCase
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
 
         $this->client->submitForm('Update', [
-            'produit[idCat]' => 'Something New',
+            'produit[nomProd]' => 'Something New',
             'produit[manuelProd]' => 'Something New',
             'produit[infosProd]' => 'Something New',
             'produit[effaceProd]' => 'Something New',
+            'produit[idCat]' => 'Something New',
         ]);
 
         self::assertResponseRedirects('/produits/');
 
         $fixture = $this->repository->findAll();
 
-        self::assertSame('Something New', $fixture[0]->getIdCat());
+        self::assertSame('Something New', $fixture[0]->getNomProd());
         self::assertSame('Something New', $fixture[0]->getManuelProd());
         self::assertSame('Something New', $fixture[0]->getInfosProd());
         self::assertSame('Something New', $fixture[0]->getEffaceProd());
+        self::assertSame('Something New', $fixture[0]->getIdCat());
     }
 
     public function testRemove(): void
     {
         $this->markTestIncomplete();
         $fixture = new Produits();
-        $fixture->setIdCat('Value');
+        $fixture->setNomProd('Value');
         $fixture->setManuelProd('Value');
         $fixture->setInfosProd('Value');
         $fixture->setEffaceProd('Value');
+        $fixture->setIdCat('Value');
 
         $$this->manager->remove($fixture);
         $this->manager->flush();
