@@ -3,14 +3,21 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Utilisateurs
  *
  * @ORM\Table(name="utilisateurs", uniqueConstraints={@ORM\UniqueConstraint(name="mail_user", columns={"mail_user"})}, indexes={@ORM\Index(name="id_role", columns={"id_role"})})
  * @ORM\Entity
+ * @UniqueEntity(
+ * fields={"mailUser"},
+ * message= "L'email que vous avez indiquer est déjà utilisé"
+ * )
  */
-class Utilisateurs
+class Utilisateurs implements UserInterface
 {
     /**
      * @var int
@@ -24,31 +31,41 @@ class Utilisateurs
     /**
      * @var string
      *
-     * @ORM\Column(name="nom_user", type="string", length=50, nullable=false)
-     */
-    private $nomUser;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prenom_user", type="string", length=50, nullable=false)
-     */
-    private $prenomUser;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="mail_user", type="string", length=255, nullable=false)
+     * @Assert\Email()
      */
     private $mailUser;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="mdp_user", type="string", length=255, nullable=false)
+     * @ORM\Column(name="prenom_user", type="string", length=50, nullable=false)
      */
-    private $mdpUser;
+    private $username;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom_user", type="string", length=50, nullable=false)
+     */
+    private $surName;
+
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="mdp_user", type="string", length=255, nullable=false)
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit faire minimum 8 caractères")
+     */
+    private $password;
+
+    /**
+     * @Assert\EqualTo(propertyPath="password", message="Votre mot de passe doit être le même")
+     */
+
+    public $confirmMdp;
+    
     /**
      * @var \Roles
      *
@@ -64,26 +81,26 @@ class Utilisateurs
         return $this->idUser;
     }
 
-    public function getNomUser(): ?string
+    public function getsurName(): ?string
     {
-        return $this->nomUser;
+        return $this->surName;
     }
 
-    public function setNomUser(string $nomUser): self
+    public function setsurName(string $surName): self
     {
-        $this->nomUser = $nomUser;
+        $this->surName = $surName;
 
         return $this;
     }
 
-    public function getPrenomUser(): ?string
+    public function getusername(): ?string
     {
-        return $this->prenomUser;
+        return $this->username;
     }
 
-    public function setPrenomUser(string $prenomUser): self
+    public function setusername(string $username): self
     {
-        $this->prenomUser = $prenomUser;
+        $this->username = $username;
 
         return $this;
     }
@@ -100,29 +117,47 @@ class Utilisateurs
         return $this;
     }
 
-    public function getMdpUser(): ?string
+    public function getPassword(): ?string
     {
-        return $this->mdpUser;
+        return $this->password;
     }
 
-    public function setMdpUser(string $mdpUser): self
+    public function setPassword(string $password): self
     {
-        $this->mdpUser = $mdpUser;
+        $this->password = $password;
 
         return $this;
     }
 
     public function getIdRole(): ?Roles
     {
+        
         return $this->idRole;
     }
 
     public function setIdRole(?Roles $idRole): self
     {
+        
         $this->idRole = $idRole;
 
         return $this;
     }
 
+    public function eraseCredentials()
+    {   
+    }
+
+    public function getSalt()
+    {
+    }
+
+    public function getRoles(){
+        return ['ROLE_USER'];
+    }
+
+    public function __toString()
+    {
+        return $this->mailUser;
+    }
 
 }

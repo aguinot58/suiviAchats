@@ -7,8 +7,12 @@
 
         <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+        <script src="https://use.fontawesome.com/b9bdbd120a.js"></script>
+        <script src="{{ asset('javascript/main.js') }}"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.css">
         <link rel="stylesheet" href="{{ asset('Styles/main.css') }}">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -35,61 +39,64 @@
 
                     <ul class="navbar-nav me-auto">
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/">Accueil
-                                <span class="visually-hidden">(current)</span>
-                            </a>
-                        </li>
+                        {% if app.user %}
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Accueil
+                                    <span class="visually-hidden">(current)</span>
+                                </a>
+                            </li>
                         
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Achats</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/achats">Achats</a>
-                                <a class="dropdown-item" href="/type/lieux">Types Lieux</a>
-                            </div>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Achats</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/achats">Achats</a>
+                                    <a class="dropdown-item" href="/type/lieux">Types Lieux</a>
+                                </div>
+                            </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Produits</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/produits">Produits</a>
-                                <a class="dropdown-item" href="/categories">Catégories</a>
-                                <a class="dropdown-item" href="/modifications">Modifications</a>
-                            </div>
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Produits</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="/produits">Produits</a>
+                                    <a class="dropdown-item" href="/categories">Catégories</a>
+                                    <a class="dropdown-item" href="/modifications">Modifications</a>
+                                </div>
+                            </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateurs</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/utilisateurs">Utilisateurs</a>
-                                <a class="dropdown-item" href="/roles">Rôles</a>
-                            </div>
-                        </li>
+                            {% if app.user.getidRole() == 'admin' %}
 
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Utilisateurs</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="/utilisateurs">Utilisateurs</a>
+                                        <a class="dropdown-item" href="/roles">Rôles</a>
+                                    </div>
+                                </li>
+                            
+                            {% endif %}
+                            
+                            <li class="nav-item">
+                                <a href="{{ path('security_logout') }}" class="nav-link">
+                                    Deconnexion
+                                </a>
+                            </li>
 
+                        {% else %}
 
+                            <li class="nav-item">
+                                <a class="nav-link" href="/inscription">Inscription
+                                </a>
+                            </li>
 
-                        <!--<li class="nav-item">
-                            <a class="nav-link" href="/achats">Achats</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="/produits">Produits</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link" href="/type/lieux">Types Lieux</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/modifications">Modifications</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/categories">Catégories</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/utilisateurs">Utilisateurs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/roles">Rôles</a>
-                        </li>-->
+                            <li class="nav-item">
+                                <a href="{{ path('security_login') }}" class="nav-link">
+                                    Connexion
+                                </a>
+                            </li>
+
+                        {% endif %}
+
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="text" placeholder="Search">
@@ -99,31 +106,19 @@
             </div>
         </nav>
 
-        <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Navbar</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                        </li>
-                    </ul>
-                </div>
+        {% if app.user or (controller_name == "Inscription_Ctrl") or (controller_name == "Connexion_Ctrl") %}
+
+            {% block body %}
+            {% endblock %}
+
+        {% else %}
+
+            <div class="container text-center">
+                <h3 class="mt-5 mb-5">Merci de vous inscrire et/ou de vous identifier pour accéder au site.</h3>
             </div>
-        </nav>-->
 
-
-        {% block body %}{% endblock %}
-
+        {% endif %}
+        
+        <script src="{{ asset('javascript/tri_tableau.js') }}"></script>
     </body>
 </html>

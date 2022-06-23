@@ -45,5 +45,10 @@ class TypeLieux
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->nomTypeLieu;
+    }
+
 
 }
