@@ -1,0 +1,56 @@
+{% extends "base.html.twig" %}
+
+{% block javascripts %}
+
+<script>
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+  ];
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'Mobilier',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: [0, 0, 0, 0, 0, 137.5],
+    }]
+  };
+
+  const config = {
+    type: 'line',
+    data: data,
+    options: {}
+  };
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+	<div class="container text-center">
+
+		<h1 class="mt-5 mb-5">
+			Comparaison des dépenses par catégories :
+		</h1>
+
+		<div>
+		<canvas id="myChart"></canvas>
+		</div>
+
+	</div>
+
+		<script>
+		const myChart = new Chart(
+			document.getElementById('myChart'),
+			config
+		);
+		</script>
+
+{% endblock %}
+

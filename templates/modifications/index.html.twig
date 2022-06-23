@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index Modifications{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+        <h1 class="mt-5">Modifications</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Type <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Description <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Date <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for modification in modifications %}
+                <tr>
+                    <td>{{ modification.idModif }}</td>
+                    <td>{{ modification.typeModif }}</td>
+                    <td>{{ modification.descModif }}</td>
+                    <td>{{ modification.dateModif ? modification.dateModif|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_modifications_show', {'idModif': modification.idModif}) }}">Voir</a>
+                        <a href="{{ path('app_modifications_edit', {'idModif': modification.idModif}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_modifications_new') }}">Nouvelle</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produits{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="mt-5 mb-5">Produits</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id produit</th>
+                    <td>{{ produit.idProd }}</td>
+                </tr>
+                <tr>
+                    <th>Nom produit</th>
+                    <td>{{ produit.nomProd }}</td>
+                </tr>
+                <tr>
+                    <th>Manuel d'utilisation</th>
+                    <td><a class="manuel_pdf" href="{{ asset("uploads/brochures/")}}{{ produit.manuelProd }}" download="newfilename">{{ produit.manuelProd }}</a></td>
+                </tr>
+                <tr>
+                    <th>Informations</th>
+                    <td>{{ produit.infosProd }}</td>
+                </tr>
+                <tr>
+                    <th>Produit effacé ?</th>
+                    <td>{{ produit.effaceProd ? 'Yes' : 'No' }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_produits_index') }}">Retour</a>
+
+        <a href="{{ path('app_produits_edit', {'idProd': produit.idProd}) }}">Modifier</a>
+
+        {{ include('produits/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

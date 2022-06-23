@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rôles{% endblock %}
+
+{% block body %}
+    <div class="container text-center">
+        <h1 class="mt-5 mb-5">Rôles</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id rôle</th>
+                    <td>{{ role.idRole }}</td>
+                </tr>
+                <tr>
+                    <th>Nom rôle</th>
+                    <td>{{ role.nomRole }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_roles_index') }}">Retour</a>
+
+        <a href="{{ path('app_roles_edit', {'idRole': role.idRole}) }}">Modifier</a>
+
+        {{ include('roles/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

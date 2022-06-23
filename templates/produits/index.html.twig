@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index produits{% endblock %}
+
+{% block body %}
+    <div class="container table-responsive text-center">
+
+        <h1 class="mt-5">Produits</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">Id <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Nom <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Manuel d'utilisation <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Informations <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th class="text-nowrap">Effacé? <img class="fleches" src="{{ asset('Img/up-and-down-arrows.png') }}" alt="flèches de tri"></th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for produit in produits %}
+                <tr>
+                    <td>{{ produit.idProd }}</td>
+                    <td>{{ produit.nomProd }}</td>
+                    <td><a href="{{ asset("uploads/brochures/")}}{{ produit.manuelProd }}" download="newfilename">{{ produit.manuelProd }}</a></td>
+                    <td>{{ produit.infosProd }}</td>
+                    <td>{{ produit.effaceProd ? 'Yes' : 'No' }}</td>
+                    <td>
+                        <a href="{{ path('app_produits_show', {'idProd': produit.idProd}) }}">Voir</a>
+                        <a href="{{ path('app_produits_edit', {'idProd': produit.idProd}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun enregistrement trouvé !</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_produits_new') }}">Nouveau</a>
+    </div>
+{% endblock %}
