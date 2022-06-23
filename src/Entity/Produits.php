@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="produits", indexes={@ORM\Index(name="id_cat", columns={"id_cat"})})
  * @ORM\Entity
+ * @ORM\Table(name="produits", indexes={@ORM\Index(columns={"nom_prod", "infos_prod"}, flags={"fulltext"})})
  */
 class Produits
 {
@@ -127,6 +128,17 @@ class Produits
     public function __toString()
     {
         return $this->nomProd;
+    }
+
+    public function search($mots)
+    {
+        $query = $this->createQueryBuilder('p');
+        if ($mots !== null){
+            $query->where('MATCH_AGAINST(p.nom_prod, p.infos_prod) AGAINST(:mots boolean)>0')
+                ->setParameter('mots', $mot);
+        }
+
+        return $query->getQuery()->getResult();
     }
 
 }
