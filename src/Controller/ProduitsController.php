@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 /**
  * @Route("/produits")
@@ -32,13 +33,23 @@ class ProduitsController extends AbstractController
     /**
      * @Route("/new", name="app_produits_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
         $produit = new Produits();
         $form = $this->createForm(Produits1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('brochure')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $produit->setManuelProd($brochureFileName);
+            }
+
             $entityManager->persist($produit);
             $entityManager->flush();
 
@@ -64,12 +75,23 @@ class ProduitsController extends AbstractController
     /**
      * @Route("/{idProd}/edit", name="app_produits_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Produits $produit, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Produits $produit, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
+
         $form = $this->createForm(Produits1Type::class, $produit);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $brochureFile = $form->get('brochure')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($brochureFile) {
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $produit->setManuelProd($brochureFileName);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_produits_index', [], Response::HTTP_SEE_OTHER);

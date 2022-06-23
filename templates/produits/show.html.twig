@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <th>Manuel d'utilisation</th>
-                    <td>{{ produit.manuelProd }}</td>
+                    <td><a class="manuel_pdf" href="{{ asset("uploads/brochures/")}}{{ produit.manuelProd }}" download="newfilename">{{ produit.manuelProd }}</a></td>
                 </tr>
                 <tr>
                     <th>Informations</th>

@@ -31,7 +31,7 @@ class Produits
     /**
      * @var string
      *
-     * @ORM\Column(name="manuel_prod", type="string", length=255, nullable=false)
+     * @ORM\Column(name="manuel_prod", type="string", length=255, nullable=true)
      */
     private $manuelProd;
 
@@ -124,5 +124,9 @@ class Produits
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->nomProd;
+    }
 
 }

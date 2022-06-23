@@ -1,11 +1,11 @@
 .fleches{
-
     width: 15px;
-
 }
 
 .fleches:hover, th:hover{
-
     cursor: pointer;
+}
 
+.mdp_court{
+    width:50%;
 }

@@ -14,7 +14,9 @@ class AccueilController extends AbstractController
      */
     public function home(): Response
     {
-        return $this->render('accueil/home.html.twig');
+        return $this->render('accueil/home.html.twig', [
+            'controller_name' => 'Accueil_Ctrl',
+        ]);
     }
 
 

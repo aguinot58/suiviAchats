@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploaderTicket;
 
 /**
  * @Route("/achats")
@@ -32,13 +33,23 @@ class AchatsController extends AbstractController
     /**
      * @Route("/new", name="app_achats_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, FileUploaderTicket $fileUploader): Response
     {
         $achat = new Achats();
         $form = $this->createForm(AchatsType::class, $achat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $ticketFile = $form->get('ticket')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($ticketFile) {
+                $ticketFileName = $fileUploader->upload($ticketFile);
+                $achat->setPhotoTicketAchat($ticketFileName);
+            }
+
             $entityManager->persist($achat);
             $entityManager->flush();
 
@@ -64,12 +75,22 @@ class AchatsController extends AbstractController
     /**
      * @Route("/{idAchat}/edit", name="app_achats_edit", methods={"GET", "POST"})
      */
-    public function edit(Request $request, Achats $achat, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Achats $achat, EntityManagerInterface $entityManager, FileUploaderTicket $fileUploader): Response
     {
         $form = $this->createForm(AchatsType::class, $achat);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $ticketFile = $form->get('ticket')->getData();
+
+            // this condition is needed because the 'brochure' field is not required
+            // so the PDF file must be processed only when a file is uploaded
+            if ($ticketFile) {
+                $ticketFileName = $fileUploader->upload($ticketFile);
+                $achat->setPhotoTicketAchat($ticketFileName);
+            }
+
             $entityManager->flush();
 
             return $this->redirectToRoute('app_achats_index', [], Response::HTTP_SEE_OTHER);

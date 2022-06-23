@@ -66,6 +66,7 @@ class Utilisateurs implements UserInterface
 
     public $confirmMdp;
     
+    
     /**
      * @var \Roles
      *
@@ -150,6 +151,18 @@ class Utilisateurs implements UserInterface
     public function getSalt()
     {
     }
+<<<<<<< HEAD
+=======
+
+    public function getRoles(){
+        return ['ROLE_USER'];
+    }
+
+    public function __toString()
+    {
+        return $this->mailUser;
+    }
+>>>>>>> master
 
     public function getRoles(){
         return ['ROLE_USER'];
