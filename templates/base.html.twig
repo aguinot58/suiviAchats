@@ -98,10 +98,15 @@
                         {% endif %}
 
                     </ul>
-                    <form class="d-flex">
+                    {% if produits is defined or achats is defined or utilisateurs is defined %}
+                    
+                    {{ form(form) }}
+
+                    {% endif %}
+                    <!--<form class="d-flex">
                         <input class="form-control me-sm-2" type="text" placeholder="Search">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>
+                    </form>-->
                 </div>
             </div>
         </nav>

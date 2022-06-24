@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Produits;
 use App\Form\Produits1Type;
+use App\Form\SearchTypeBar;
+use App\Service\FileUploader;
+use App\Repository\ProduitsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\FileUploader;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/produits")
@@ -19,14 +21,28 @@ class ProduitsController extends AbstractController
     /**
      * @Route("/", name="app_produits_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, ProduitsRepository $produitsRepo): Response
     {
         $produits = $entityManager
-            ->getRepository(Produits::class)
-            ->findAll();
+        ->getRepository(Produits::class)
+        ->findAll();
+
+        $form = $this->createForm(SearchTypeBar::class);
+
+        $search = $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            $produits = $produitsRepo->search($search->get('mots')->getData());
+        
+        }
+
+
 
         return $this->render('produits/index.html.twig', [
             'produits' => $produits,
+            'controller_name' => 'Accueil_Ctrl',
+            'form' => $form->createView()
         ]);
     }
 
