@@ -6,6 +6,7 @@ use App\Entity\Utilisateurs;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 Use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class RegistrationType extends AbstractType
@@ -18,8 +19,15 @@ class RegistrationType extends AbstractType
             ->add('surName')
             ->add('password', PasswordType::class)
             ->add('confirmMdp', PasswordType::class)
-            ->add('idRole')
-
+            ->add('idRole', ChoiceType::class, [
+                'attr' => [
+                'disabled' => 'disabled'
+                ],
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                ]
+])
         ;
     }
 
