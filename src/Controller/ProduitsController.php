@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Achats;
 use App\Entity\Produits;
 use App\Form\Produits1Type;
 use App\Form\SearchTypeBar;
@@ -11,7 +12,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @Route("/produits")
@@ -130,5 +133,12 @@ class ProduitsController extends AbstractController
         }
 
         return $this->redirectToRoute('app_produits_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    public static function loadValidatorMetadata(ClassMetadata $metadata, Achats $dateAchat)
+    {
+        $metadata->addPropertyConstraint('createdAt', new Assert\DateTime());
+
+        echo $metadata;
     }
 }
