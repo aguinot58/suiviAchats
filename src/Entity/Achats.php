@@ -7,8 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Achats
  *
- * @ORM\Table(name="achats", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_prod", columns={"id_prod"}), @ORM\Index(name="id_type_lieu", columns={"id_type_lieu"})})
  * @ORM\Entity
+ * @ORM\Table(name="achats", indexes={@ORM\Index(name="id_user", columns={"id_user"}), @ORM\Index(name="id_prod", columns={"id_prod"}), @ORM\Index(name="id_type_lieu", columns={"id_type_lieu"})})
  */
 class Achats
 {
@@ -59,7 +59,7 @@ class Achats
     /**
      * @var \Produits
      *
-     * @ORM\ManyToOne(targetEntity="Produits")
+     * @ORM\ManyToOne(targetEntity="Produits", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="id_prod", referencedColumnName="id_prod")
      * })

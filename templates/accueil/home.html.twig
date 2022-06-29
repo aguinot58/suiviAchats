@@ -1,56 +1,136 @@
 {% extends "base.html.twig" %}
 
-{% block javascripts %}
-
-<script>
-  const labels = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-  ];
-
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: 'Mobilier',
-      backgroundColor: 'rgb(255, 99, 132)',
-      borderColor: 'rgb(255, 99, 132)',
-      data: [0, 0, 0, 0, 0, 137.5],
-    }]
-  };
-
-  const config = {
-    type: 'line',
-    data: data,
-    options: {}
-  };
-</script>
-
-{% endblock %}
-
 {% block body %}
 
-	<div class="container text-center">
+    <div class="container text-center">
 
-		<h1 class="mt-5 mb-5">
-			Comparaison des dépenses par catégories :
-		</h1>
+        <h1 class="mt-5 mb-5">
+        Comparaison des dépenses par catégories :
+        </h1>
 
-		<div>
-		<canvas id="myChart"></canvas>
-		</div>
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+        {{ form_end(form) }}
+
+        <script>
+
+        var data = [];
+
+        {% for donnee in donnees %}
+
+            {% if donnee.mois == 1 %}
+                mois = "Jan";
+            {% endif %}
+            {% if donnee.mois == 2 %}
+                mois = "Fev";
+            {% endif %}
+            {% if donnee.mois == 3 %}
+                mois = "Mars";
+            {% endif %}
+            {% if donnee.mois == 4 %}
+                mois = "Avr";
+            {% endif %}
+            {% if donnee.mois == 5 %}
+                mois = "Mai";
+            {% endif %}
+            {% if donnee.mois == 6 %}
+                mois = "Juin";
+            {% endif %}
+            {% if donnee.mois == 7 %}
+                mois = "Juil";
+            {% endif %}
+            {% if donnee.mois == 8 %}
+                mois = "Aout";
+            {% endif %}
+            {% if donnee.mois == 9 %}
+                mois = "Sept";
+            {% endif %}
+            {% if donnee.mois == 10 %}
+                mois = "Oct";
+            {% endif %}
+            {% if donnee.mois == 11 %}
+                mois = "Nov";
+            {% endif %}
+            {% if donnee.mois == 12 %}
+                mois = "Dec";
+            {% endif %}
+
+            var tab = {"nom":"{{ donnee.nom_cat }}", "mois":mois, "value":{{ donnee.total|round(0, 'ceil') }}};
+            data.push(tab);
+
+        {% endfor %}
+
+            window.onload = function() {
+
+                var ctx = document.getElementById('Chart1');
+                let labels = ["Jan", "Fev", "Mars", "Avril", "Mai", "Juin", "Juil", "Aout", "Sept", "Oct", "Nov", "Dec"];
+                var dataset = {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: []
+                },    
+                options: {
+                    scales: {
+                    yAxes: [{
+                        ticks: {
+                        beginAtZero: true
+                        }
+                    }]
+                    }
+                }
+                }
+
+                function getRandomRgb() {
+                var num = Math.round(0xffffff * Math.random());
+                var r = num >> 16;
+                var g = num >> 8 & 255;
+                var b = num & 255;
+                return 'rgb(' + r + ', ' + g + ', ' + b + ')';
+                }
+
+                updateDataset();
+
+                function updateDataset() {
+                let obj = {};
+
+                data.forEach((value) => {
+                    if(obj[value.nom]) {
+                        obj[value.nom].data[labels.indexOf(value.mois)] = value.value;
+                    }
+                    else {
+                        obj[value.nom] = {};
+                        obj[value.nom].data = [];
+                        obj[value.nom].data[labels.indexOf(value.mois)] = value.value;
+                    }
+                })
+
+                let value, color;
+                for(let key in obj) {
+                    value = obj[key];
+                    color = getRandomRgb();
+                    dataset.data.datasets.push({
+                        label: key,
+                        data: value.data,
+                        borderColor: color,
+                        backgroundColor: color,
+                        fill: false
+                    })
+                }
+                }
+
+                var myChart = new Chart(ctx, dataset);   
+            }
+
+        /* If you update data in future then just run the updateDataset() function again and then myChart.update();*/
+        </script>
+
+        <div>
+        <!--<canvas id="myChart"></canvas>-->
+            <canvas id="Chart1" width="600" height="300"></canvas>
+        </div>
 
 	</div>
-
-		<script>
-		const myChart = new Chart(
-			document.getElementById('myChart'),
-			config
-		);
-		</script>
 
 {% endblock %}
 

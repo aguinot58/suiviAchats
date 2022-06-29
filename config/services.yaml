@@ -35,3 +35,9 @@ services:
     App\Service\FileUploaderTicket:
         arguments:
             $targetDirectory: '%tickets_directory%'
+
+    # service de connexion à la bdd et de récupération des données pour les graphs de stats
+    App\Service\FetchDatasGraph:
+        class: App\Service\FetchDatasGraph
+        arguments: ['@database_connection']
+        
