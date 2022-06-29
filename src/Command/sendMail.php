@@ -1,14 +1,21 @@
 <?php
 
+namespace App\Command;
+
 use App\Service\checkDate;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Swift_Message;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
     class sendMail extends Command
     {
         private $checkDate;
-        protected static $defaultName = 'bot:mail';
+        protected static $defaultName = 'app:bot:mail';
 
         public function __construct( checkDate $checkDate ){
 

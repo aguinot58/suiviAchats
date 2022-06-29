@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 class checkDate
 {
    /**
-    * @var string A "Y-m-d H:i:s" formatted value
+    * @var string A "Y-m-d" formatted value
     */
     protected $createdAt;
 
@@ -19,7 +19,7 @@ class checkDate
         $metadata->addPropertyConstraint('createdAt', new Assert\DateTime());
 
         if ($metadata === $dateAchat) {
-            mail('user@outlook.fr' , 'Fin de garantie' , 'Votre garantie pour votre article"" est arrivé à terme' );
+            mail('loris_labarre@outlook.fr' , 'Fin de garantie' , 'Votre garantie pour votre article est arrivé à terme' );
         }
     }
 }

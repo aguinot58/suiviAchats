@@ -103,17 +103,29 @@
                     {{ form(form) }}
 
                     {% endif %}
-                    <!--<form class="d-flex">
-                        <input class="form-control me-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>-->
                 </div>
             </div>
         </nav>
 
+                <div class="area" >
+                    <ul class="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div >
+
         {% if app.user or (controller_name == "Inscription_Ctrl") or (controller_name == "Connexion_Ctrl") %}
 
             {% block body %}
+
             {% endblock %}
 
         {% else %}
@@ -123,6 +135,7 @@
             </div>
 
         {% endif %}
+        
         
         <script src="{{ asset('javascript/tri_tableau.js') }}"></script>
     </body>
