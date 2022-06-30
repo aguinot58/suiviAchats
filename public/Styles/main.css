@@ -61,6 +61,10 @@ animation: annimationTitle 2.2s;
     }
 }
 
+#search_type_bar_Rechercher {
+    margin-top: 0 !important;
+}
+
 /* background flotant */
 
 @import url('https://fonts.googleapis.com/css?family=Exo:400,700');
