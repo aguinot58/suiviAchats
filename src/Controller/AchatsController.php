@@ -4,12 +4,14 @@ namespace App\Controller;
 
 use App\Entity\Achats;
 use App\Form\AchatsType;
+use App\Form\SearchTypeBar;
+use App\Service\FileUploaderTicket;
+use App\Repository\AchatsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\FileUploaderTicket;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("/achats")
@@ -19,14 +21,26 @@ class AchatsController extends AbstractController
     /**
      * @Route("/", name="app_achats_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, AchatsRepository $achatsRepo): Response
     {
         $achats = $entityManager
             ->getRepository(Achats::class)
             ->findAll();
 
+        $form = $this->createForm(SearchTypeBar::class);
+
+        $search = $form->handleRequest($request);
+
+        /*if($form->isSubmitted() && $form->isValid()) {
+
+            $achats = $achatsRepo->search($search->get('mots')->getData());
+        
+        }*/
+        
+
         return $this->render('achats/index.html.twig', [
             'achats' => $achats,
+            'form' => $form->createView(),
         ]);
     }
 

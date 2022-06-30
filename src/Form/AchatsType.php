@@ -5,8 +5,9 @@ namespace App\Form;
 use App\Entity\Achats;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class AchatsType extends AbstractType
@@ -16,8 +17,12 @@ class AchatsType extends AbstractType
         $builder
             ->add('idProd')
             ->add('idUser')
-            ->add('dateAchat')
-            ->add('dateGarAchat')
+            ->add('dateAchat', DateType::class, [
+                'widget' => 'single_text',
+            ])
+            ->add('dateGarAchat', DateType::class, [
+                'widget' => 'single_text',
+            ])
             ->add('prixAchat')
             //->add('photoTicketAchat')
             ->add('ticket', FileType::class, [
