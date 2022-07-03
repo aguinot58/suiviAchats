@@ -40,4 +40,11 @@ services:
     App\Service\FetchDatasGraph:
         class: App\Service\FetchDatasGraph
         arguments: ['@database_connection']
+
+
+    App\Command\CronMail:
+        class: App\Command\CronMail
+        arguments: ['@database_connection']
+        tags:
+            - { name: 'console.command', command: 'app:CronMail' }
         
