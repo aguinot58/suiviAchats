@@ -10,28 +10,23 @@
     use Symfony\Component\Mime\Email;
     use \PDO;
     use Symfony\Component\Config\FileLocator;
-
-    use Symfony\Component\Mailer\Mailer;
     use Symfony\Component\Mailer\MailerInterface;
-
-    use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
     use Symfony\Component\Mailer\Transport\TransportInterface;
 
     
-
     class CronMail extends Command
     {
 
         private $em;
         private $mailer;
-        private $trspSMTP;
+        private $transport;
 
-        public function __construct($conn, EntityManagerInterface $em, MailerInterface $mailer, TransportInterface $trspSMTP)
+        public function __construct($conn, EntityManagerInterface $em, MailerInterface $mailer, TransportInterface $transport)
         {
             $this->conn = $conn;
             $this->em = $em;
             $this->mailer = $mailer;
-            $this->trspSMTP = $trspSMTP;
+            $this->transport = $transport;
             parent::__construct();
         }
 
@@ -45,10 +40,6 @@
 
             // On set l'aide
             $this->setHelp("Je serai affichée si on lance la commande app/console app:cronMails -h");
-
-            // On prépare les arguments
-            //$this->addArgument('name', InputArgument::REQUIRED, "Quel est ton prenom ?")
-            //     ->addArgument('last_name', InputArgument::OPTIONAL, "Quel est ton nom ?");
         }
 
         /***
@@ -57,40 +48,30 @@
          */
         public function execute(InputInterface $input, OutputInterface $output): int
         {
-            //$today = date('Y-m-d');
+
             $today = "2024-06-21";
-            //$output->writeln($today);
 
             $sql = "SELECT a.id_achat, a.date_achat, a.date_gar_achat, p.id_prod, p.nom_prod, p.infos_prod, u.id_user, u.nom_user, u.prenom_user, u.mail_user from Achats a JOIN Produits p ON a.id_prod = p.id_prod JOIN Utilisateurs u ON a.id_user = u.id_user WHERE a.date_gar_achat = '$today'";
-            //$output->writeln($sql);
 
-            /*$lien_local = "../../";
-            $lien_prod = "../../../../";*/
-
-            $configDirectories = [__DIR__];
+            $configDirectories = 'config\\';
             $fileLocator = new FileLocator($configDirectories);
             $iniFiles = $fileLocator->locate('achats.ini', null, true);
 
-            //$output->writeln($iniFiles);
-
-            /*if ($filesystem->exists('/public/config/achats.ini')){*/
-
-                //$output->writeln("test");
-
+            if ($_SERVER['APP_ENV']=="dev"){
                 $base = "locale";
                 $inifile = parse_ini_file($iniFiles,true);
                 $servername = $inifile['Base_locale']['servername'];
                 $username = $inifile['Base_locale']['username'];
                 $password = $inifile['Base_locale']['password'];
                 $db = $inifile['Base_locale']['database'];
-            /*} else {
+            } else {
                 $base = "prod";
-                $inifile = parse_ini_file('../../../../config/achats.ini',true);
+                $inifile = parse_ini_file($iniFiles,true);
                 $servername = $inifile['Base_prod']['servername'];
                 $username = $inifile['Base_prod']['username'];
                 $password = $inifile['Base_prod']['password'];
                 $db = $inifile['Base_prod']['database'];
-            }*/
+            }
 
             $conn = new PDO("mysql:host=$servername;dbname=$db;charset=UTF8", $username, $password);
             //On définit le mode d'erreur de PDO sur Exception
@@ -103,11 +84,24 @@
 
             foreach ($datas as $data) {
 
-                //var_dump($datas);
-
                 if ($data['id_achat'] != null) {
 
-                    mail($data['mail_user'], 'Alerte produit en fin de garantie', 'test envoi mail');
+                    /*$email = (new Email())
+                        ->from('aymeric.guinot@gmail.com')
+                        ->to($data['mail_user'])
+                        ->subject('Alerte produit en fin de garantie')
+                        ->text('test envoi mail');
+
+                    $transport = new EsmtpTransport();
+                    $mailer = new Mailer($transport);
+                    $mailer->send($email);*/
+
+                    $to = $data['mail_user'];
+                    $subject = "Alerte produit en fin de garantie";
+                    $body = "Bonjour, le produit ".$data['nom_prod']." acheté le ".$data['date_achat']." arrive en fin de garantie aujourd'hui.";
+                    $headers = "From: suivisAchats@localhost" . "\r\n";
+                    mail($to,$subject,$body,$headers);
+
                     return 0;
      
                 }
