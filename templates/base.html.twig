@@ -29,7 +29,7 @@
 
             <div class="container-fluid">
 
-                <a class="navbar-brand" href="/">Bienvenue sur le back office !</a>
+                <a class="navbar-brand" href="/">Bienvenue {% if app.user %} {{ app.user.getUsername }} {% else %} sur le Back-Office ! {% endif %}</a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -98,17 +98,34 @@
                         {% endif %}
 
                     </ul>
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="text" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Rechercher</button>
-                    </form>
+                    {% if produits is defined or achats is defined or utilisateurs is defined %}
+                    
+                    {{ form(form) }}
+
+                    {% endif %}
                 </div>
             </div>
         </nav>
 
+                <div class="area" >
+                    <ul class="circles">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                </div >
+
         {% if app.user or (controller_name == "Inscription_Ctrl") or (controller_name == "Connexion_Ctrl") %}
 
             {% block body %}
+
             {% endblock %}
 
         {% else %}
@@ -118,6 +135,7 @@
             </div>
 
         {% endif %}
+        
         
         <script src="{{ asset('javascript/tri_tableau.js') }}"></script>
     </body>

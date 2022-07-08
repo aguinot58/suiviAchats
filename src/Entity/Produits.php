@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="produits", indexes={@ORM\Index(name="id_cat", columns={"id_cat"})})
  * @ORM\Entity
+ * @ORM\Table(name="produits", indexes={@ORM\Index(columns={"nom_prod", "infos_prod"}, flags={"fulltext"})})
+ * @ORM\Entity(repositoryClass="App\Repository\ProduitsRepository")
  */
 class Produits
 {
@@ -128,5 +130,4 @@ class Produits
     {
         return $this->nomProd;
     }
-
 }
