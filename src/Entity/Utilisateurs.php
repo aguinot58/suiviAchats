@@ -12,6 +12,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *
  * @ORM\Table(name="utilisateurs", uniqueConstraints={@ORM\UniqueConstraint(name="mail_user", columns={"mail_user"})}, indexes={@ORM\Index(name="id_role", columns={"id_role"})})
  * @ORM\Entity
+ * @ORM\Table(name="utilisateurs", indexes={@ORM\Index(columns={"prenom_user", "nom_user"}, flags={"fulltext"})})
+ * @ORM\Entity(repositoryClass="App\Repository\UtilisateursRepository")
  * @UniqueEntity(
  * fields={"mailUser"},
  * message= "L'email que vous avez indiquer est déjà utilisé"

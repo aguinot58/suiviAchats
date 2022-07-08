@@ -2,13 +2,15 @@
 
 namespace App\Controller;
 
+use App\Form\SearchTypeBar;
 use App\Entity\Utilisateurs;
 use App\Form\UtilisateursType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\UtilisateursRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -19,14 +21,25 @@ class UtilisateursController extends AbstractController
     /**
      * @Route("/", name="app_utilisateurs_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(EntityManagerInterface $entityManager, Request $request, UtilisateursRepository $utilisateursRepo): Response
     {
         $utilisateurs = $entityManager
             ->getRepository(Utilisateurs::class)
             ->findAll();
 
+        $form = $this->createForm(SearchTypeBar::class);
+
+        $search = $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+        $utilisateurs = $utilisateursRepo->search($search->get('mots')->getData());
+        
+        }
+
         return $this->render('utilisateurs/index.html.twig', [
             'utilisateurs' => $utilisateurs,
+            'form' => $form->createView()
         ]);
     }
 
